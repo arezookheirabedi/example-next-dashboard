@@ -8,7 +8,10 @@ const links = [
   { name: 'داشبورد', href: '/dashboard', icon: "/sidebar/Home.png" },
   { name: 'کیف پول', href: '/dashboard/wallet', icon: "/sidebar/Wallet.png" },
   { name: 'سرویس‌ها', href: '/dashboard/services', icon: "/sidebar/Services.png" },
+  { name: ' تیکت', href: '/dashboard/ticket', icon: "/sidebar/Ticket.png" },
+  { name: ' نرخ ارز', href: '/dashboard/exchangeRate', icon: "/sidebar/Ticket.png" },
   { name: 'حساب کاربری', href: '/dashboard/profile', icon: "/sidebar/Profile.png" },
+
 ];
 
 export default function NavLinks() {
