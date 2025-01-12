@@ -1,3 +1,3 @@
 export default function Page() {
-    return <p>dashboaed Page</p>;
+    return <p>services Page</p>;
   }
