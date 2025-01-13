@@ -1,9 +1,8 @@
 'use client';
 
-import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import Link from 'next/link';
-import { generatePagination } from '@/app/lib/utils';
+import { generatePagination } from '@/app/helpers/utils';
 import { usePathname, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 

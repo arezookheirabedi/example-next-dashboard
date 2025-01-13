@@ -8,9 +8,10 @@ const links = [
   { name: 'داشبورد', href: '/dashboard', icon: "/sidebar/Home.png" },
   { name: 'کیف پول', href: '/dashboard/wallet', icon: "/sidebar/Wallet.png" },
   { name: 'سرویس‌ها', href: '/dashboard/services', icon: "/sidebar/Services.png" },
+  { name: 'پیگیری سفارش‌ها', href: '/dashboard/orders', icon: "/sidebar/M-Orders.svg" },
   { name: ' تیکت', href: '/dashboard/ticket', icon: "/sidebar/Ticket.png" },
-  { name: ' نرخ ارز', href: '/dashboard/exchangeRate', icon: "/sidebar/Ticket.png" },
-  { name: 'حساب کاربری', href: '/dashboard/profile', icon: "/sidebar/Profile.png" },
+  { name: ' نرخ ارز', href: '/dashboard/exchangeRate', icon: "/sidebar/Currency-blue.svg" },
+  { name: 'حساب کاربری', href: '/dashboard/profile', icon: "/sidebar/Profile.png" }
 
 ];
 
@@ -24,8 +25,8 @@ export default function NavLinks() {
           key={link.name}
           href={link.href}
           className={clsx(
-            'relative flex h-[48px] grow items-center justify-center gap-2 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3',
-            { 'bg-sky-100 text-blue-600': pathname === link.href }
+            'relative flex h-[48px] grow items-center justify-center gap-2 p-3 text-sm font-medium hover:bg-blue-100 hover:bg-opacity-40 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3',
+            { 'bg-blue-100 bg-opacity-40 text-blue-600': pathname === link.href }
           )}
         >
           <div className="relative flex items-center">
@@ -60,7 +61,11 @@ export default function NavLinks() {
             />
           </div>
           {/* Link text */}
-          <p className="hidden md:block">{link.name}</p>
+          <p className="hidden md:block">
+            <span className="font-IRANYekanXFaNum text-[16px] font-normal leading-[24px] text-right">
+              {link.name}
+              </span>
+              </p>
         </Link>
       ))}
     </>
