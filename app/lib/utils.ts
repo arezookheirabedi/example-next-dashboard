@@ -1,4 +1,3 @@
-import { Revenue } from './definitions';
 
 export const formatCurrency = (amount: number) => {
   return (amount / 100).toLocaleString('en-US', {
@@ -21,18 +20,44 @@ export const formatDateToLocal = (
   return formatter.format(date);
 };
 
-export const generateYAxis = (revenue: Revenue[]) => {
-  // Calculate what labels we need to display on the y-axis
-  // based on highest record and in 1000s
-  const yAxisLabels = [];
-  const highestRecord = Math.max(...revenue.map((month) => month.revenue));
-  const topLabel = Math.ceil(highestRecord / 1000) * 1000;
+export const convertGregorianDateToJalaliDateWithHourAndMinute2 = (date: any) => {
+  if (!date) return null;
+  return new Date(date).toLocaleDateString('fa-IR', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute:'2-digit'
+  });
+};
+export const convertGregorianDateToJalaliDateWithHourAndMinute  = (date: any) => {
+  if (!date) return null;
+  
+  const jalaliFormatter = new Intl.DateTimeFormat('fa-IR', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  });
 
-  for (let i = topLabel; i >= 0; i -= 1000) {
-    yAxisLabels.push(`$${i / 1000}K`);
-  }
+  const timeFormatter = new Intl.DateTimeFormat('fa-IR', {
+    hour: '2-digit',
+    minute: '2-digit',
+    hourCycle: 'h23',
+  });
 
-  return { yAxisLabels, topLabel };
+  const formattedDate = jalaliFormatter.format(new Date(date));
+  const formattedTime = timeFormatter.format(new Date(date));
+
+  return `${formattedTime} | ${formattedDate}`;
+};
+export const convertGregorianDateToJalali = (date: any) => {
+  if (!date) return null;
+  return new Date(date).toLocaleDateString('fa-IR', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+
+  });
 };
 
 export const generatePagination = (currentPage: number, totalPages: number) => {
