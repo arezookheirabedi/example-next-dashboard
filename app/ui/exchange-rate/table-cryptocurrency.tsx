@@ -1,27 +1,37 @@
+'use client';
 import Image from 'next/image';
-import { UpdateInvoice, DeleteInvoice } from '@/app/ui/invoices/buttons';
-import InvoiceStatus from '@/app/ui/invoices/status';
-import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
-//mport { fetchFilteredInvoices } from '@/app/lib/data';
-
-export default async function CryptocurrencyTable({
-  query,
-  currentPage,
-}: {
+import { convertGregorianDateToJalaliDateWithHourAndMinute } from '@/app/lib/utils';
+import { Suspense} from 'react';
+import { InvoicesTableSkeleton } from '@/app/ui/skeletons';
+import Pagination from '@/app/ui/exchange-rate/pagination';
+import {  ArrowLeftIcon } from '@heroicons/react/24/outline';
+import { v4 as uuidv4 } from 'uuid';
+import RateStatus from '@/app/ui/exchange-rate/status';
+interface ICrytopros{
   query: string;
   currentPage: number;
-}) {
-  //const invoices = await fetchFilteredInvoices(query, currentPage);
-  const invoices=[{id:"454353",image_url:"/customers/amy-burns.png",name:"dsfsdf",email:"sdsf",status:"asfsdf"}]
-
+  isCrypto: boolean;
+}
+export default  function CryptocurrencyTable({
+  query,
+  currentPage,
+  isCrypto,
+}: ICrytopros
+) {
+ 
+  const invoices=[{id:"45v4353",image_url:"/customers/amy-burns.png",name:"dsfsdf",email:"sdsf",status:"asfsdf"},{id:"454353",image_url:"/customers/amy-burns.png",name:"dsfsdf",email:"sdsf",status:"asfsdf"},{id:"454353",image_url:"/customers/amy-burns.png",name:"dsfsdf",email:"sdsf",status:"asfsdf"}]
+  const totalPages =2; 
   return (
+    <>
+   <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />}>  
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
-        <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
+        <div className="rounded-lg bg-white p-2 md:pt-0">
+          {/* mobile  */}
           <div className="md:hidden">
             {invoices?.map((invoice) => (
               <div
-                key={invoice.id}
+                key={uuidv4()}
                 className="mb-2 w-full rounded-md bg-white p-4"
               >
                 <div className="flex items-center justify-between border-b pb-4">
@@ -38,42 +48,37 @@ export default async function CryptocurrencyTable({
                     </div>
                     <p className="text-sm text-gray-500">{invoice.email}</p>
                   </div>
-                  <InvoiceStatus status={invoice.status} />
                 </div>
                 <div className="flex w-full items-center justify-between pt-4">
                   <div>
-                    ujyu
-                    {/* <p className="text-xl font-medium">
-                      {formatCurrency(invoice.amount)}
-                    </p>
-                    <p>{formatDateToLocal(invoice.date)}</p> */}
+                  
+                    <p>{convertGregorianDateToJalaliDateWithHourAndMinute(new Date().toString())}</p>
                   </div>
                   <div className="flex justify-end gap-2">
-                    <UpdateInvoice id={invoice.id} />
-                    <DeleteInvoice id={invoice.id} />
+               
                   </div>
                 </div>
               </div>
             ))}
           </div> 
-          <table className="hidden min-w-full text-gray-900 md:table">
-            <thead className="rounded-lg text-left text-sm font-normal">
+          <table className="hidden min-w-full  text-gray-900 md:table"  >
+            <thead className="rounded-lg  text-right  border-b  border-dashed text-sm font-normal">
               <tr>
-                <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
-                  Customer
+                <th scope="col" className="px-4 py-5 font-medium sm:pl-6 ">
+                نوع 
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
-                  Email
+                خرید شما (ریال)
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
-                  Amount
+                فروش شما (ریال)
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
-                  Date
+                تغییرات (24 ساعت)
                 </th>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  Status
-                </th>
+                {!isCrypto ?<th scope="col" className="px-3 py-5 font-medium">
+                آخرین به‌روزرسانی
+                </th>:null}
                 <th scope="col" className="relative py-3 pl-6 pr-3">
                   <span className="sr-only">Edit</span>
                 </th>
@@ -82,16 +87,19 @@ export default async function CryptocurrencyTable({
              <tbody className="bg-white">
               {invoices?.map((invoice) => (
                 <tr
-                  key={invoice.id}
-                  className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
+                  key={uuidv4()}
+                  className="w-full border-b  
+                  border-dashed py-3 text-sm last-of-type:border-none 
+                  [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg
+                   [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg hover:bg-gray-100"
                 >
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex items-center gap-3">
                       <Image
                         src={invoice.image_url}
                         className="rounded-full"
-                        width={28}
-                        height={28}
+                        width={24}
+                        height={24}
                         alt={`${invoice.name}'s profile picture`}
                       />
                       <p>{invoice.name}</p>
@@ -101,20 +109,19 @@ export default async function CryptocurrencyTable({
                     {invoice.email}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
-                    {/* {formatCurrency(invoice.amount)} */}
                     amount
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
-                    date
-                {/*     {formatDateToLocal(invoice.date)} */}
+                  <RateStatus status={"negetive"} />
+
+
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
-                    <InvoiceStatus status={invoice.status} />
+                  <p>{convertGregorianDateToJalaliDateWithHourAndMinute(new Date().toString())}</p>
                   </td>
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex justify-end gap-3">
-                      <UpdateInvoice id={invoice.id} />
-                      <DeleteInvoice id={invoice.id} />
+                    <ArrowLeftIcon className="w-4" />
                     </div>
                   </td>
                 </tr>
@@ -124,5 +131,10 @@ export default async function CryptocurrencyTable({
         </div>
       </div>
     </div>
+    </Suspense> 
+    <div className="mt-5 flex w-full justify-end">
+          <Pagination totalPages={totalPages} />
+        </div>
+    </>
   );
 }
