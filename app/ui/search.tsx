@@ -15,7 +15,6 @@ export default function Search({ placeholder }: { placeholder: string }) {
     const params = new URLSearchParams(searchParams);
     params.set('page', '1');
     if (term) {
-      console.log(term,"term")
       params.set('query', term);
     } else {
       params.delete('query');
@@ -23,7 +22,7 @@ export default function Search({ placeholder }: { placeholder: string }) {
     replace(`${pathname}?${params.toString()}`);
   }
   return (
-    <div className="relative flex flex-1 flex-shrink-0 rtl">
+    <div className="relative flex flex-1 flex-shrink-0 rtl ">
       <label htmlFor="search" className="sr-only">
         Search
       </label>
