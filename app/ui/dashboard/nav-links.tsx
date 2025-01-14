@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import Image from 'next/image';
 
 const links = [
-  { name: 'داشبورد', href: '/dashboard', icon: "/sidebar/Home.png" },
+  { name: 'داشبورد', href: '/dashboard', icon: "/sidebar/Home.svg" },
   { name: 'کیف پول', href: '/dashboard/wallet', icon: "/sidebar/Wallet.png" },
   { name: 'سرویس‌ها', href: '/dashboard/services', icon: "/sidebar/Services.png" },
   { name: 'پیگیری سفارش‌ها', href: '/dashboard/orders', icon: "/sidebar/M-Orders.svg" },
