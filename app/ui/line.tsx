@@ -87,12 +87,17 @@ export default function Line({ data }: { data: Array<Number> }) {
               },
               tooltip: {
                 backgroundColor: 'rgba(0, 0, 0, 0.7)',
+        
                 callbacks: {
-                  label: (tooltipItem) => `${tooltipItem.raw}  ریال`,
+                  label: (tooltipItem) => `${toPersianDigits((tooltipItem.raw as number).toString())} ریال`,  // Explicit type assertion
                   title: () => '',
                 },
                 bodyFont: { family: 'IRANYekanXFaNum', size: 14, weight: 500, style: 'italic' },
                 padding: 16,
+                displayColors: false,  // Hide the colored square
+                position: 'nearest',   // Position the tooltip nearest to the point
+                caretSize: 0,          // Hide the caret (arrow)
+                caretPadding: 0, 
               },
             },
             interaction: { intersect: true },
