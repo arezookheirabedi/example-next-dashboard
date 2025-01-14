@@ -1,3 +1,5 @@
+'use client';
+
 export function debounce<T extends (...args: any[]) => void>(func: T, delay: number): (...args: Parameters<T>) => void {
     let timeoutId: ReturnType<typeof setTimeout>;
   
@@ -19,7 +21,7 @@ export const formatCurrency = (amount: number) => {
   });
 };
 
-export const formatDateToLocal = (
+/* export const formatDateToLocal = (
   dateStr: string,
   locale: string = 'en-US',
 ) => {
@@ -31,7 +33,7 @@ export const formatDateToLocal = (
   };
   const formatter = new Intl.DateTimeFormat(locale, options);
   return formatter.format(date);
-};
+}; */
 
 export const convertGregorianDateToJalaliDateWithHourAndMinute2 = (date: any) => {
   if (!date) return null;
@@ -121,3 +123,6 @@ export  function commaSeprator  (input: string | number): string {
 };
 
 
+export function removeNegativeSign(value: number): number {
+  return Math.abs(value);
+}
