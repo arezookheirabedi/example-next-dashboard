@@ -1,17 +1,17 @@
-import Link from 'next/link';
-import NavLinks from '@/app/ui/dashboard/nav-links';
+'use client';
 import Image from 'next/image';
 
 export default function UserArea() {
   return (
-    <div className="flex w-full justify-end xl:justify-between space-x-5 rtl:space-x-reverse">
-          <div className="flex items-center    flex-row-reverse xl:flex-row justify-between pr-0 py-5 space-x-5 rtl:space-x-reverse">
-          <h6 className="font-IRANYekanXFaNum text-[16px] font-semibold leading-[24px] text-right">
+    <>
+        <div className="flex items-center flex-row-reverse xl:flex-row justify-between pr-0 py-5 space-x-5 rtl:space-x-reverse">
+        <h6 className="font-IRANYekanXFaNum text-[16px] font-semibold leading-[24px] text-right">
             مهرناز عادلخانی 
             </h6>
-          </div>
+        </div>
 
-          <div className="flex items-center flex-row-reverse xl:flex-row justify-between py-5 space-x-5 rtl:space-x-reverse">
+      <div className="flex items-center flex-row-reverse xl:flex-row justify-between py-5 space-x-5 rtl:space-x-reverse">
+       <div className="flex items-center flex-row-reverse xl:flex-row justify-between py-5 space-x-5 rtl:space-x-reverse">
                <Image
                                 src="/private-header/Search.png"
                                 width={24}
@@ -37,7 +37,6 @@ export default function UserArea() {
                                 alt="header Profile icon"
                               />
           </div>
-        </div>
-
-
+      </div>
+      </>
     )}
