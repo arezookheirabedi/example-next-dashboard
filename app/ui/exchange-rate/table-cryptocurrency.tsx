@@ -10,7 +10,6 @@ import { ICurrency, MockData } from '@/app/model/cryto.model';
 import Line from '@/app/ui/line';
 import fetchCurrencyPrices from '@/app/services/crpyto.service';
 import PaginationScope from '@/app/ui/exchange-rate/PaginationScope/pagination-scope';
-import Pagination from './pagination';
 interface ICrytopros{
   query: string;
   currentPage: number;
@@ -199,7 +198,7 @@ const pageSize=10
   <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
     <div className="bg-white p-4 rounded-lg relative">
       <h2 className="text-xl">{selectedInvoice?.title}</h2>
-      <Line  fetchData={selectedInvoice?.price_list!}/>
+      <Line  data={selectedInvoice?.price_list!}/>
       
       <button
   onClick={closeModal}
