@@ -160,12 +160,10 @@ export default  function CryptocurrencyTable({
   className="absolute top-2 left-2 w-5 h-5 text-xl text-gray-600 hover:text-gray-900 focus:outline-none border-[1.5px] border-[#606060] rounded-md flex items-center justify-center"
 >
   &times;
-</button>
-
+     </button>
     </div>
   </div>
 )}
-
     </Fragment>
   );
 }
