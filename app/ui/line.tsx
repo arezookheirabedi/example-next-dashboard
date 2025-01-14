@@ -103,7 +103,12 @@ export default function Line({ data }: { data: Array<Number> }) {
                 border: { display: false },
               },
               y: {
-                ticks: { stepSize: 5000 },
+            
+                ticks: { stepSize: 5000,
+                  callback: function (tickValue: string | number) {
+                    return toPersianDigits(tickValue.toString());
+                  },
+                 },
                 title: { display: false },
                 border: { display: false, dash: [5, 5] },
                 grid: { drawTicks: false, display: true },
