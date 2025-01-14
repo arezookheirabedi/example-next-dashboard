@@ -38,7 +38,6 @@ export default  function CryptocurrencyTable({
     setIsModalOpen(false); 
     setSelectedInvoice(null); 
   };
-
   useEffect(() => {
     setPage(1)
     fetchData();
@@ -154,7 +153,6 @@ export default  function CryptocurrencyTable({
     <div className="bg-white p-4 rounded-lg relative">
       <h2 className="text-xl">{selectedInvoice?.title}</h2>
       <Line  data={selectedInvoice?.price_list!}/>
-      
       <button
   onClick={closeModal}
   className="absolute top-2 left-2 w-5 h-5 text-xl text-gray-600 hover:text-gray-900 focus:outline-none border-[1.5px] border-[#606060] rounded-md flex items-center justify-center"

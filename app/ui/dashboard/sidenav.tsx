@@ -24,7 +24,6 @@ export default function SideNav() {
         className="block md:hidden"
         alt="Screenshot of the dashboard project showing mobile version"
       />
-        
         </div>
       </Link>
       <div className="flex grow flex-row justify-between space-x-2 md:flex-col md:space-x-0 ">

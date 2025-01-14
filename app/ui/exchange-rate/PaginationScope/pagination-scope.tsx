@@ -22,17 +22,12 @@ const PaginationScope: React.FC<IProps> = props => {
 
   
   const {
-    // eslint-disable-next-line
     totalItems,
-    // eslint-disable-next-line
     currentPage,
-
     pages,
   } = paginate(totalitems, currentpage, pagesize, maxpages);
   return (
     <div className="inline-flex">
-    {/* next Button */}
-  
     <button
     disabled={currentpage ===  Math.ceil(totalitems / pagesize)}
       className="flex h-10 w-10 items-center justify-center hover:bg-gray-100 ml-2 md:ml-4" 
@@ -45,7 +40,6 @@ const PaginationScope: React.FC<IProps> = props => {
         alt="next icon for pagination"
       />
     </button>
-    {/* Page Buttons */}
     <div className="flex -space-x-px flex-row-reverse">
       {pages.map((key: number) => (
         <button 
@@ -59,9 +53,6 @@ const PaginationScope: React.FC<IProps> = props => {
         </button>
       ))}
     </div>
-
-    {/* back Button */}  
-   
       <button 
         disabled={currentpage === 1} 
       onClick={() =>setPage(currentpage - 1)} 
@@ -69,7 +60,6 @@ const PaginationScope: React.FC<IProps> = props => {
       >
         <img 
           src={currentpage === 1 ? "/icons/Back-disable.svg" : "/icons/Back.svg"}
-          //src="/icons/Back.svg"
           width={24}
           height={24}
           alt="back icon for pagination"
