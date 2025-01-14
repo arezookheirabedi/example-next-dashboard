@@ -1,6 +1,6 @@
 'use client';
 import Image from 'next/image';
-import { toPersianDigits } from '@/app/helpers/utils';
+import { removeNegativeSign, toPersianDigits } from '@/app/helpers/utils';
 import clsx from 'clsx';
 
 export default function RateStatus({ status }: { status: number }) {
@@ -22,7 +22,7 @@ export default function RateStatus({ status }: { status: number }) {
           sign === "negative" ? "text-[#F44444]" : "text-[#11BB69]"
         )}
       >
-        {sign ? `${toPersianDigits(123)}٪` : "-"}
+        {sign ? `${toPersianDigits(removeNegativeSign(status))}٪` : "-"}
       </span>
       {sign && (
         <Image
