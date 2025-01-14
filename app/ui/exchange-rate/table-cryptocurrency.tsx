@@ -6,7 +6,7 @@ import {  ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { v4 as uuidv4 } from 'uuid';
 import { ToastContainer, toast } from "react-toastify";
 import RateStatus from '@/app/ui/exchange-rate/status';
-import { ICurrency, MockData } from '@/app/model/cryto.model';
+import { ICurrency} from '@/app/model/cryto.model';
 import Line from '@/app/ui/line';
 import fetchCurrencyPrices from '@/app/services/crpyto.service';
 import PaginationScope from '@/app/ui/exchange-rate/PaginationScope/pagination-scope';
@@ -15,7 +15,7 @@ interface ICrytopros{
   currentPage: number;
   isCrypto: boolean;
 }
-
+const pageSize=10
 export default  function CryptocurrencyTable({
   query,
   currentPage,
@@ -26,8 +26,9 @@ export default  function CryptocurrencyTable({
   const [loading, setLoading] = useState<boolean>(true);
   const [data, setData] = useState<Array<ICurrency>|null>(null);
   const [page, setPage] = useState<number>(1);
-const pageSize=10
+
   const [selectedInvoice, setSelectedInvoice] = useState<ICurrency|null>(null);
+
   const openModal = (invoice: any) => {
     setSelectedInvoice(invoice);
     setIsModalOpen(true); 
@@ -38,12 +39,10 @@ const pageSize=10
     setSelectedInvoice(null); 
   };
 
-
   useEffect(() => {
     setPage(1)
     fetchData();
   }, [isCrypto]);
-
 
   const fetchData = async () => {
     setLoading(true)
@@ -52,12 +51,9 @@ const pageSize=10
       if (isCrypto) {
         const CryptoData=list.price_list.filter( (item: ICurrency)  => item.is_systemic === false);
         setData(CryptoData);  
-      
       } else {
         const currencyData=list.price_list.filter( (item: ICurrency)  => item.is_systemic === true);
         setData(currencyData); 
-
-
        ;
       }
     } catch (err) {
@@ -72,40 +68,6 @@ const pageSize=10
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
         <div className="rounded-lg bg-white p-2 md:pt-0">
-          {/* mobile  */}
-          <div className="md:hidden">
-            {data?.slice((page - 1) * pageSize, page * pageSize)?.map((invoice:ICurrency,index:number) => (
-              <div
-                key={uuidv4()}
-                className="mb-2 w-full rounded-md bg-white p-4"
-              >
-                <div className="flex items-center justify-between border-b pb-4">
-                  <div>
-                    <div className="mb-2 flex items-center">
-                      <img
-                        src={invoice.image}
-                        className="mr-2 rounded-full"
-                        width={28}
-                        height={28}
-                        alt={`${invoice.title}'s profile picture`}
-                      />
-                      <p>{invoice.title}</p>
-                    </div>
-                    <p className="text-sm text-gray-500">{toPersianDigits(invoice.current_buy_price)}</p>
-                  </div>
-                </div>
-                <div className="flex w-full items-center justify-between pt-4">
-                  <div>
-                  
-                    <p>{convertGregorianDateToJalaliDateWithHourAndMinute(new Date().toString())}</p>
-                  </div>
-                  <div className="flex justify-end gap-2">
-               
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div> 
           <table className="hidden min-w-full  text-gray-900 md:table"  >
             <thead className="rounded-lg  text-right  border-b  border-dashed text-sm font-normal">
               <tr>
@@ -179,9 +141,6 @@ const pageSize=10
     </div>
 }
     <div className="mt-5 flex w-full justify-end">
-
-
-     
         <PaginationScope
           totalItems={data?.length!}
           currentPage={page}
@@ -189,11 +148,7 @@ const pageSize=10
           pageSize={pageSize}
           maxPages={3}
         />
-     
-
-
         </div>
-        {/* Modal */}
         {isModalOpen && (
   <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
     <div className="bg-white p-4 rounded-lg relative">
@@ -206,7 +161,6 @@ const pageSize=10
 >
   &times;
 </button>
-
 
     </div>
   </div>
