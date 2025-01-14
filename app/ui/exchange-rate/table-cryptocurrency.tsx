@@ -2,7 +2,6 @@
 import { commaSeprator, convertGregorianDateToJalaliDateWithHourAndMinute, toPersianDigits } from '@/app/helpers/utils';
 import { Fragment, Suspense, useEffect, useState} from 'react';
 import { InvoicesTableSkeleton } from '@/app/ui/skeletons';
-import Pagination from '@/app/ui/exchange-rate/pagination';
 import {  ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { v4 as uuidv4 } from 'uuid';
 import { ToastContainer, toast } from "react-toastify";
@@ -10,6 +9,8 @@ import RateStatus from '@/app/ui/exchange-rate/status';
 import { ICurrency, MockData } from '@/app/model/cryto.model';
 import Line from '@/app/ui/line';
 import fetchCurrencyPrices from '@/app/services/crpyto.service';
+import PaginationScope from '@/app/ui/exchange-rate/PaginationScope/pagination-scope';
+import Pagination from './pagination';
 interface ICrytopros{
   query: string;
   currentPage: number;
@@ -25,23 +26,25 @@ export default  function CryptocurrencyTable({
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const [data, setData] = useState<Array<ICurrency>|null>(null);
+  const [page, setPage] = useState<number>(1);
+const pageSize=10
   const [selectedInvoice, setSelectedInvoice] = useState<ICurrency|null>(null);
   const openModal = (invoice: any) => {
-    setSelectedInvoice(invoice); // Set the selected invoice to display in the modal
-    setIsModalOpen(true); // Open the modal
+    setSelectedInvoice(invoice);
+    setIsModalOpen(true); 
   };
 
   const closeModal = () => {
-    setIsModalOpen(false); // Close the modal
-    setSelectedInvoice(null); // Reset selected invoice
+    setIsModalOpen(false); 
+    setSelectedInvoice(null); 
   };
-  
-  const totalPages = Math.ceil(data?.length||10 / 10);
 
 
   useEffect(() => {
+    setPage(1)
     fetchData();
   }, [isCrypto]);
+
 
   const fetchData = async () => {
     setLoading(true)
@@ -49,17 +52,20 @@ export default  function CryptocurrencyTable({
       const  {data:list} = await fetchCurrencyPrices();
       if (isCrypto) {
         const CryptoData=list.price_list.filter( (item: ICurrency)  => item.is_systemic === false);
-        setData(CryptoData);  // Only set data to `Crypto` when `isCrypto` is true
+        setData(CryptoData);  
+      
       } else {
         const currencyData=list.price_list.filter( (item: ICurrency)  => item.is_systemic === true);
-        setData(currencyData); // Set data to `currency` otherwise
+        setData(currencyData); 
+
+
+       ;
       }
     } catch (err) {
       toast.error(
         (err as Error).message)
     }finally{setLoading(false)}
   };
-
   return (
     <Fragment>
            <ToastContainer />
@@ -69,7 +75,7 @@ export default  function CryptocurrencyTable({
         <div className="rounded-lg bg-white p-2 md:pt-0">
           {/* mobile  */}
           <div className="md:hidden">
-            {data?.map((invoice:ICurrency,index:number) => (
+            {data?.slice((page - 1) * pageSize, page * pageSize)?.map((invoice:ICurrency,index:number) => (
               <div
                 key={uuidv4()}
                 className="mb-2 w-full rounded-md bg-white p-4"
@@ -125,7 +131,7 @@ export default  function CryptocurrencyTable({
               </tr>
             </thead>
              <tbody className="bg-white">
-              {data?.map((invoice) => (
+              {data?.slice((page - 1) * pageSize, page * pageSize)?.map((invoice) => (
                 <tr
                 onClick={() => openModal(invoice)} // Add onClick here
                   key={uuidv4()}
@@ -174,7 +180,19 @@ export default  function CryptocurrencyTable({
     </div>
 }
     <div className="mt-5 flex w-full justify-end">
-          <Pagination totalPages={totalPages} />
+
+
+     
+        <PaginationScope
+          totalItems={data?.length!}
+          currentPage={page}
+          setPage={setPage}
+          pageSize={pageSize}
+          maxPages={3}
+        />
+     
+
+
         </div>
         {/* Modal */}
         {isModalOpen && (
