@@ -1,4 +1,4 @@
-// Loading animation
+'use client';
 const shimmer =
   'before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/60 before:to-transparent';
 
@@ -132,7 +132,6 @@ export function TableRowSkeleton() {
       <td className="whitespace-nowrap py-3 pl-6 pr-3">
         <div className="flex justify-end gap-3">
           <div className="h-[38px] w-[38px] rounded bg-gray-100"></div>
-          <div className="h-[38px] w-[38px] rounded bg-gray-100"></div>
         </div>
       </td>
     </tr>
@@ -172,40 +171,28 @@ export function InvoicesTableSkeleton() {
             <InvoicesMobileSkeleton />
             <InvoicesMobileSkeleton />
             <InvoicesMobileSkeleton />
-            <InvoicesMobileSkeleton />
-            <InvoicesMobileSkeleton />
-            <InvoicesMobileSkeleton />
           </div>
           <table className="hidden min-w-full text-gray-900 md:table">
             <thead className="rounded-lg text-left text-sm font-normal">
               <tr>
-                <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
-                  Customer
+                <th scope="col" className="px-4 py-5 font-medium sm:pl-6 ">
+                نوع 
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
-                  Email
+                خرید شما (ریال)
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
-                  Amount
+                فروش شما (ریال)
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
-                  Date
+                تغییرات (24 ساعت)
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
-                  Status
-                </th>
-                <th
-                  scope="col"
-                  className="relative pb-4 pl-3 pr-6 pt-2 sm:pr-6"
-                >
-                  <span className="sr-only">Edit</span>
+                آخرین به‌روزرسانی
                 </th>
               </tr>
             </thead>
             <tbody className="bg-white">
-              <TableRowSkeleton />
-              <TableRowSkeleton />
-              <TableRowSkeleton />
               <TableRowSkeleton />
               <TableRowSkeleton />
               <TableRowSkeleton />
