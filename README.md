@@ -20,7 +20,7 @@ npm install -g pnpm
 
 First, clone the repository to your local machine:
 ```bash
-git clone git@github.com:void-detailist/example-next-dashboard.git
+git clone git@github.com:arezookheirabedi/example-next-dashboard.git
 ```
 
 ### 2. Navigate to the Project Directory
