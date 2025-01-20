@@ -1,10 +1,9 @@
 'use client';
 import SideNav from '@/app/ui/dashboard/sidenav';
 import UserArea from '@/app/ui/dashboard/user-area';
-import React, { useEffect } from 'react';
-import Image from 'next/image';
+import React from 'react';
 
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [collapsible, setCollapsible] = useState(false);
