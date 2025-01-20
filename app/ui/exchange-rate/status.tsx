@@ -30,6 +30,7 @@ export default function RateStatus({ status }: { status: number }) {
           width={24}
           height={24}
           alt="status icon"
+          style={{ width: 'auto', height: 'auto' }}
         />
       )}
     </div>
