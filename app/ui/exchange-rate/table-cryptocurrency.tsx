@@ -26,7 +26,6 @@ export function CryptocurrencyTable({
   const [loading, setLoading] = useState<boolean>(true);
   const [data, setData] = useState<Array<ICurrency>>([]);
   const [page, setPage] = useState<number>(1);
-
   const [selectedInvoice, setSelectedInvoice] = useState<ICurrency|null>(null);
 
   const openModal = (invoice: any) => {
