@@ -1,41 +1,40 @@
 'use client';
-import { commaSeprator, convertGregorianDateToJalaliDateWithHourAndMinute, toPersianDigits } from '@/app/helpers/utils';
-import { Fragment, Suspense, useEffect, useState} from 'react';
+import { colDef, commaSeprator, convertGregorianDateToJalaliDateWithHourAndMinute, toPersianDigits } from '@/app/helpers/utils';
+import { Fragment, useEffect, useState} from 'react';
 import { InvoicesTableSkeleton } from '@/app/ui/skeletons';
-import {  ArrowLeftIcon } from '@heroicons/react/24/outline';
-import { v4 as uuidv4 } from 'uuid';
 import { ToastContainer, toast } from "react-toastify";
 import RateStatus from '@/app/ui/exchange-rate/status';
 import { ICurrency} from '@/app/model/cryto.model';
 import Line from '@/app/ui/line';
 import fetchCurrencyPrices from '@/app/services/crpyto.service';
-import PaginationScope from '@/app/ui/exchange-rate/PaginationScope/pagination-scope';
+import PaginationScope from '@/app/ui/components/PaginationScope/pagination-scope';
+import { Modal } from '../components/Modal';
+import { EntityTable, IColumn } from '../components/table-scope/entityTable';
 interface ICrytopros{
   query: string;
   currentPage: number;
   isCrypto: boolean;
 }
 const pageSize=10
-export default  function CryptocurrencyTable({
+export function CryptocurrencyTable({
   query,
   currentPage,
   isCrypto,
 }: ICrytopros
 ) {
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [show, setShow] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
-  const [data, setData] = useState<Array<ICurrency>|null>(null);
+  const [data, setData] = useState<Array<ICurrency>>([]);
   const [page, setPage] = useState<number>(1);
 
   const [selectedInvoice, setSelectedInvoice] = useState<ICurrency|null>(null);
 
   const openModal = (invoice: any) => {
     setSelectedInvoice(invoice);
-    setIsModalOpen(true); 
+    setShow(true); 
   };
-
   const closeModal = () => {
-    setIsModalOpen(false); 
+    setShow(false); 
     setSelectedInvoice(null); 
   };
   useEffect(() => {
@@ -60,84 +59,44 @@ export default  function CryptocurrencyTable({
         (err as Error).message)
     }finally{setLoading(false)}
   };
+  const columns: IColumn<ICurrency>[] = [
+    colDef("title", ("نوع"), (_, y) =>
+      <div className="flex items-center gap-3">
+                      <img
+                        src={y.image}
+                        className="rounded-full"
+                        width={24}
+                        height={24}
+                        alt={`${y.title}'s profile picture`}
+                      />
+                      <p>{y.title}</p>
+                    </div>
+    ),
+    colDef("title", (" خرید شما (ریال)"), (_, y) =>
+      <p> {toPersianDigits(commaSeprator(y.current_buy_price))}</p>
+),
+    colDef("title", (" فروش شما (ریال)"), (_, y) =>
+      <p> {toPersianDigits(commaSeprator(y.current_sell_price))}</p>
+),
+    colDef("title", ("  تغییرات (24 ساعت)"), (_, y) =>
+      <RateStatus status={y.percentage_change||0} />
+),
+  colDef("title", ("  آخرین به‌روزرسانی"), (_, y) =>
+               <p>{convertGregorianDateToJalaliDateWithHourAndMinute(new Date().toString())}</p>
+  ),
+   
+  ]; 
   return (
     <Fragment>
            <ToastContainer />
            {loading? <InvoicesTableSkeleton />:
-    <div className="mt-6 flow-root">
-      <div className="inline-block min-w-full align-middle">
-        <div className="rounded-lg bg-white p-2 md:pt-0">
-          <table className="hidden min-w-full  text-gray-900 md:table"  >
-            <thead className="rounded-lg  text-right  border-b  border-dashed text-sm font-normal">
-              <tr>
-                <th scope="col" className="px-4 py-5 font-medium sm:pl-6 ">
-                نوع 
-                </th>
-                <th scope="col" className="px-3 py-5 font-medium">
-                خرید شما (ریال)
-                </th>
-                <th scope="col" className="px-3 py-5 font-medium">
-                فروش شما (ریال)
-                </th>
-                <th scope="col" className="px-3 py-5 font-medium">
-                تغییرات (24 ساعت)
-                </th>
-                {!isCrypto ?<th scope="col" className="px-3 py-5 font-medium">
-                آخرین به‌روزرسانی
-                </th>:null}
-                <th scope="col" className="relative py-3 pl-6 pr-3">
-                  <span className="sr-only">Edit</span>
-                </th>
-              </tr>
-            </thead>
-             <tbody className="bg-white">
-              {data?.slice((page - 1) * pageSize, page * pageSize)?.map((invoice) => (
-                <tr
-                onClick={() => openModal(invoice)} // Add onClick here
-                  key={uuidv4()}
-                  className="w-full border-b  
-                  border-dashed py-3 text-sm last-of-type:border-none 
-                  [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg
-                   [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg  hover:bg-blue-100 hover:bg-opacity-40"
-                >
-                  <td className="whitespace-nowrap py-3 pl-6 pr-3">
-                    <div className="flex items-center gap-3">
-                      <img
-                        src={invoice.image}
-                        className="rounded-full"
-                        width={24}
-                        height={24}
-                        alt={`${invoice.title}'s profile picture`}
-                      />
-                      <p>{invoice.title}</p>
-                    </div>
-                  </td>
-                  <td className="whitespace-nowrap px-3 py-3">
-                    {toPersianDigits(commaSeprator(invoice.current_buy_price))}
-                  </td>
-                  <td className="whitespace-nowrap px-3 py-3">
-                 
-                  {toPersianDigits(commaSeprator(invoice.current_sell_price))}
-
-                  </td>
-                  <td className="whitespace-nowrap px-3 py-3">
-                  <RateStatus status={invoice.percentage_change||0} />
-                  </td>
-                {!isCrypto ?<td className="whitespace-nowrap px-3 py-3">
-                  <p>{convertGregorianDateToJalaliDateWithHourAndMinute(new Date().toString())}</p>
-                  </td>:null}
-                  <td className="whitespace-nowrap py-3 pl-6 pr-3">
-                    <div className="flex justify-end gap-3">
-                    <ArrowLeftIcon className="w-4" />
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody> 
-          </table>
-        </div>
-      </div>
-    </div>
+          
+                  <EntityTable<ICurrency>
+                 onRowClick={openModal}
+                 error={false}
+                 tableColumns={columns}
+                 dataList={data?.slice((page - 1) * pageSize, page * pageSize)}
+               /> 
 }
     <div className="mt-5 flex w-full justify-end">
         <PaginationScope
@@ -148,20 +107,9 @@ export default  function CryptocurrencyTable({
           maxPages={3}
         />
         </div>
-        {isModalOpen && (
-  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-    <div className="bg-white p-4 rounded-lg relative">
-      <h2 className="text-xl">{selectedInvoice?.title}</h2>
-      <Line  data={selectedInvoice?.price_list!}/>
-      <button
-  onClick={closeModal}
-  className="absolute top-2 left-2 w-5 h-5 text-xl text-gray-600 hover:text-gray-900 focus:outline-none border-[1.5px] border-[#606060] rounded-md flex items-center justify-center"
->
-  &times;
-     </button>
-    </div>
-  </div>
-)}
+       <Modal title={selectedInvoice?.title!} closeModal={closeModal} showModal={show}>
+        <Line  data={selectedInvoice?.price_list!}/>
+        </Modal>
     </Fragment>
   );
 }
