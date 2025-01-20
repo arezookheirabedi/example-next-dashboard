@@ -16,6 +16,7 @@ export default function SideNav() {
         height={760}
         className="hidden md:block"
         alt="Screenshots of the dashboard project showing desktop version"
+        priority
       />
             <Image
         src="/ZimaLogo.png"
