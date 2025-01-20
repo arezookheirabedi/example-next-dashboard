@@ -1,5 +1,7 @@
 'use client';
 
+import { IColumn } from "../ui/components/table-scope/entityTable";
+
 export function debounce<T extends (...args: any[]) => void>(func: T, delay: number): (...args: Parameters<T>) => void {
     let timeoutId: ReturnType<typeof setTimeout>;
     return function (...args: Parameters<T>) {
@@ -91,4 +93,16 @@ export  function commaSeprator  (input: string | number): string {
 
 export function removeNegativeSign(value: number): number {
   return Math.abs(value);
+}
+export function colDef<T>(
+  colName: keyof T,
+  colCellName: string,
+  render?: (col: IColumn<T>, record: T) => React.ReactNode
+) {
+  return {
+    align: "left",
+    title: colCellName,
+    key: colName,
+    render: render,
+  } as IColumn<T>;
 }

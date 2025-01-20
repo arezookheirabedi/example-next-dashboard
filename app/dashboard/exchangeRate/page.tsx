@@ -1,6 +1,6 @@
 'use client';
 import Search from '@/app/ui/search';
-import CryptocurrencyTable from '@/app/ui/exchange-rate/table-cryptocurrency';
+import {CryptocurrencyTable} from '@/app/ui/exchange-rate/table-cryptocurrency';
 import ToggleButton from '@/app/ui/toggle-button';
 import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
